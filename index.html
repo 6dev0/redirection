@@ -17,11 +17,11 @@
         const deeplink = status === 'SUCCESS'
         ? `eurofides://app/home?transactionid=${transactionid}&success=true`
         : `eurofides://app/home?transactionid=${transactionid}&success=false`;
-
+        // changer ci-dessus, il faudrait que je redirige vers le srv de test et le endpoint correspondant
         window.location.href = deeplink;
 
         setTimeout(() => {
-        window.location.href = "https://www.google.com";
+        window.location.href = "http://eurofides.be";
         }, 1200);
     </script>
 </body>
