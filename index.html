@@ -1,28 +1,18 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Redirection…</title>
-</head>
-<body>
-    <p>Ouverture de l'application…</p>
+<script>
+    const urlString = window.location.href;
+    const url = new URL(urlString);
+    const params = url.searchParams;
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const transactionid = params.get('transactionid');
-        const status = params.get('status');
+    const tid = params.get('transactionid');
+    const stat = params.get('status');
+    let finalSuccess = (stat === 'SUCCESS' || stat === 'true');
+    const safeTid = tid ? tid : "ERREUR_JS_NULL_" + Date.now();
+    const deeplink = `eurofides://app/home?transactionid=${safeTid}&success=${finalSuccess}`;
+    const debugUrl = `https://www.google.com/search?q=DEEPLINK_GENERE_${encodeURIComponent(deeplink)}`;
 
-        console.log(`Transaction ${transactionid} status ${status}`);
+    window.location.href = deeplink;
 
-        const deeplink = status === 'SUCCESS'
-        ? `eurofides://app/home?transactionid=${transactionid}&success=true`
-        : `eurofides://app/home?transactionid=${transactionid}&success=false`;
-        // changer ci-dessus, il faudrait que je redirige vers le srv de test et le endpoint correspondant
-        window.location.href = deeplink;
-
-        setTimeout(() => {
-        window.location.href = `http://google.com?q=${params}`;
-        }, 1200);
-    </script>
-</body>
-</html>
+    setTimeout(() => {
+        window.location.href = debugUrl;
+    }, 1000);
+</script>
