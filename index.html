@@ -1,18 +1,13 @@
 <script>
-    const urlString = window.location.href;
-    const url = new URL(urlString);
-    const params = url.searchParams;
-
-    const tid = params.get('transactionid');
-    const stat = params.get('status');
-    let finalSuccess = (stat === 'SUCCESS' || stat === 'true');
+    const urlParams = new URLSearchParams(window.location.search);
+    const tid = urlParams.get('transactionid');
+    const stat = urlParams.get('status');
+    let finalSuccess = (stat === 'SUCCESS' || stat === 'true');    
     const safeTid = tid ? tid : "ERREUR_JS_NULL_" + Date.now();
-    const deeplink = `eurofides://app/home?transactionid=${safeTid}&success=${finalSuccess}`;
-    const debugUrl = `https://www.google.com/search?q=DEEPLINK_GENERE_${encodeURIComponent(deeplink)}`;
+    const deeplink = `eurofides://app/home?transactionid=${safeTid}&success=${finalSuccess}&t=${Date.now()}`;
 
-    window.location.href = deeplink;
-
+    window.location.replace(deeplink);
     setTimeout(() => {
-        window.location.href = debugUrl;
-    }, 1000);
+        window.location.href = `https://www.google.com/search?q=DEEPLINK_SENT_${finalSuccess}`;
+    }, 1500);
 </script>
